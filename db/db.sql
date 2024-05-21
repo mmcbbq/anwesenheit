@@ -35,9 +35,15 @@ create table anwesenheit
     foreign key (teilnehmer_id) references teilnehmer (id)
 );
 
-SELECT u.*,
-       t.fachrichtung,
-       t.team,
-       t.user_id,
-       t.id
-FROM user u left join teilnehmer t on u.id = t.user_id;
+# SELECT u.*,
+#        t.fachrichtung,
+#        t.team,
+#        t.user_id,
+#        t.id
+# FROM user u  left join teilnehmer t on u.id = t.user_id
+# where team is not null ;
+#
+#
+# SELECT count(id)  FROM user where role='teilnehmer';
+#
+# SELECT * FROM anwesenheit where teilnehmer_id=6 and month(datum) = 1;

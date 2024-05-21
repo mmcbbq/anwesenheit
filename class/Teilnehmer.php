@@ -48,7 +48,24 @@ class Teilnehmer extends User
         return new Teilnehmer($result['id'],$result['fname'],$result['lname'],$result['pwhash'],$result['email'],$result['role'],$result['user_id'],$result['fachrichtung'],$result['role']);
     }
 
+    /**
+     * @return Teilnehmer[]
+     */
 
+    public static function findAll()
+    {
+        $con = self::dbcon();
+        $sql = 'SELECT id FROM user where role = "teilnehmer"';
+        $stmt = $con->prepare($sql);
+//        $stmt->bindParam(':teilnehmer', $teilnehmer);
+        $stmt->execute();
+        $results = $stmt->fetchAll(2);
+        $teilnehmer = [];
+        foreach ($results as $result) {
+            $teilnehmer[]= self::findById($result['id']);
+        }
+        return $teilnehmer;
+    }
 
 
 

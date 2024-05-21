@@ -64,6 +64,11 @@ class User
         return new User($result['id'],$result['fname'],$result['lname'],$result['pwhash'],$result['email'],$result['role']);
     }
 
+    public function test($id)
+    {
+        return $id;
+    }
+
     /**
      * @return int
      */
@@ -87,12 +92,6 @@ class User
     {
         return $this->lname;
     }
-
-
-
-
-
-
 
 
 }

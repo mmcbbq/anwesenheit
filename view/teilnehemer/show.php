@@ -2,8 +2,8 @@
 include '../../class/User.php';
 include '../../class/Teilnehmer.php';
 include '../../class/Anwesenheit.php';
-$teilnehmer_id = 6;
-$anwesenheiten = Anwesenheit::findByTeilId($teilnehmer_id);
+$teilnehmer_id = $_GET['id'];
+$anwesenheiten = Anwesenheit::findByMonthTId($teilnehmer_id,3);
 $teilnehmer = Teilnehmer::findById($teilnehmer_id)
 ?>
 
@@ -18,16 +18,48 @@ $teilnehmer = Teilnehmer::findById($teilnehmer_id)
 </head>
 <body>
 
-<?php echo '<h1>'.$teilnehmer->getFname(). " ".$teilnehmer->getLname(); ?>
+<?php echo '<h1>' . $teilnehmer->getFname() . " " . $teilnehmer->getLname().'</h1>'; ?>
 <div>
     <?php
+    $color= 'withe';
 
-    foreach ($anwesenheiten as $item) {
-        echo '<div style="border-style: solid; width: 200px; float: left">';
+
+        echo '<div>';
+    foreach ($anwesenheiten as $index=>$item) {
+        if ($item->getStatus() == 'fe') {
+            $color = 'green';
+        } elseif ($item->getStatus() == 'x') {
+            $color = 'dodgerblue';
+        } elseif ($item->getStatus() == 'on') {
+            $color = 'darkslateblue';
+        }elseif ($item->getStatus() == 'n'){
+            $color= 'red';
+        }
+
+        if($index==0){
+            if ($item->getDatumObj()->format('w'== 0)){
+                $anzahl = 7;
+            }else{
+                $anzahl= $item->getDatumObj()->format('w');
+                $anzahl = $anzahl - 1;
+            }
+            $day = $item->getDatumObj()->format('w');
+            for ($i = 0; $i <$anzahl ; $i++) {
+                echo '<span> $anzahl</span>';
+
+            }
+        }
+
+
+
+
+        echo "<span style='border-style: solid; width: 200px;display: inline-block; background-color: $color'>";
         echo $item->getStatus();
 
         echo $item->getDatum();
-        echo '</div>';
+        echo '</span>';
+        (($index+1) %7 == 0) ? printf(" </div><div>") : printf("");
+
     }
     ?>
 
