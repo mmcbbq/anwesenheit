@@ -2,9 +2,10 @@
 include '../../class/User.php';
 include '../../class/Teilnehmer.php';
 include '../../class/Anwesenheit.php';
+
 $teilnehmer_id = $_GET['id'];
 $anwesenheiten = Anwesenheit::findByMonthTId($teilnehmer_id,3);
-$teilnehmer = Teilnehmer::findById($teilnehmer_id)
+$teilnehmer = Teilnehmer::findById($teilnehmer_id);
 ?>
 
 <!doctype html>
@@ -30,7 +31,7 @@ $teilnehmer = Teilnehmer::findById($teilnehmer_id)
             $color = 'green';
         } elseif ($item->getStatus() == 'x') {
             $color = 'dodgerblue';
-        } elseif ($item->getStatus() == 'on') {
+        } elseif ($item->getStatus() == 'o') {
             $color = 'darkslateblue';
         }elseif ($item->getStatus() == 'n'){
             $color= 'red';

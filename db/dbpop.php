@@ -51,7 +51,7 @@ $stmt = $conn->prepare($sql);
 $dozentenId = 1;
 
 for ($monat = 1; $monat <= 3; $monat++) {
-    $date = new DateTime("2024-$monat-28");
+    $date = new DateTime("2024-$monat-1");
     $monatsTage = $date->format('t');
     for ($tag = 1; $tag <= $monatsTage; $tag++) {
         $datum = "2024-$monat-$tag";
@@ -66,9 +66,8 @@ for ($monat = 1; $monat <= 3; $monat++) {
             $stmt->bindParam(':date', $datum);
             $stmt->bindParam(':status', $status);
             $stmt->execute();
-            $date->modify('+1 day');
         }
+        $date->modify('+1 day');
     }
-
 
 }
