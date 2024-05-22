@@ -4,11 +4,11 @@ include '../../class/Teilnehmer.php';
 include '../../class/Anwesenheit.php';
 
 $teilnehmer_id = $_GET['id'];
-$anwesenheiten = Anwesenheit::findByMonthTId($teilnehmer_id,3);
+$anwesenheiten = Anwesenheit::findByMonthTId($teilnehmer_id, 1);
 $teilnehmer = Teilnehmer::findById($teilnehmer_id);
 ?>
 
-<!doctype html>
+<!doctype html>cd
 <html lang='en'>
 <head>
     <meta charset='UTF-8'>
@@ -19,53 +19,52 @@ $teilnehmer = Teilnehmer::findById($teilnehmer_id);
 </head>
 <body>
 
-<?php echo '<h1>' . $teilnehmer->getFname() . " " . $teilnehmer->getLname().'</h1>'; ?>
+<?php echo '<h1>' . $teilnehmer->getFname() . " " . $teilnehmer->getLname() . '</h1>'; ?>
 <div>
     <?php
-    $color= 'withe';
+    $color = 'withe';
 
 
-        echo '<div>';
-    foreach ($anwesenheiten as $index=>$item) {
+    echo '<div style="display: flex">';
+    foreach ($anwesenheiten as $index => $item) {
         if ($item->getStatus() == 'fe') {
             $color = 'green';
+            $text = 'Frei';
         } elseif ($item->getStatus() == 'x') {
             $color = 'dodgerblue';
+            $text = 'Anwesend';
         } elseif ($item->getStatus() == 'o') {
             $color = 'darkslateblue';
-        }elseif ($item->getStatus() == 'n'){
-            $color= 'red';
+            $text = 'Online';
+        } elseif ($item->getStatus() == 'n') {
+            $color = 'red';
+            $text = 'Nicht Dort';
         }
 
-        if($index==0){
-            if ($item->getDatumObj()->format('w'== 0)){
-                $anzahl = 7;
-            }else{
-                $anzahl= $item->getDatumObj()->format('w');
-                $anzahl = $anzahl - 1;
+        if ($index == 0) {
+            $zeile = 0;
+            if ($item->getDatumObj()->format('w' == 0) or $item->getDatumObj()->format('w') == 6) {
+                $leer = 0;
+            } else {
+                $anzahl = $item->getDatumObj()->format('w');
+                $leer = $anzahl - 1;
             }
             $day = $item->getDatumObj()->format('w');
-            for ($i = 0; $i <$anzahl ; $i++) {
-                echo '<span> $anzahl</span>';
+            for ($i = 0; $i < $leer; $i++) {
+                echo "<span style='border-style: solid;align-self: stretch; align-self: stretch; width: 100px;display: inline-block; background-color: gray'>-</span>";
 
+                $zeile++;
             }
         }
-
-
-
-
-        echo "<span style='border-style: solid; width: 200px;display: inline-block; background-color: $color'>";
-        echo $item->getStatus();
-
+        echo "<span style='border-style: solid;width: 100px;display: inline-block; background-color: $color'>";
         echo $item->getDatum();
+        echo "<br>";
+        echo $text;
         echo '</span>';
-        (($index+1) %7 == 0) ? printf(" </div><div>") : printf("");
-
+        $zeile++;
+        ($zeile % 7 == 0) ? printf(" </div><div>") : printf("");
     }
     ?>
-
-
 </div>
-
 </body>
 </html>
